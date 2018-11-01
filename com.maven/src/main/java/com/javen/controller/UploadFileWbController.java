@@ -52,7 +52,7 @@ public class UploadFileWbController extends HttpServlet {
 		String message = "";
 		try {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
-			factory.setSizeThreshold(1024 * 1024 * 1024);// ����߽��С1MB
+			factory.setSizeThreshold(1024 * 1024 * 1024);// 
 			factory.setRepository(tempFile);
 
 			ServletFileUpload upload = new ServletFileUpload(factory);
@@ -61,7 +61,7 @@ public class UploadFileWbController extends HttpServlet {
 				@Override
 				public void update(long pBytesRead, long pContentLength, int arg2) {
 					// TODO Auto-generated method stub
-					System.out.println("�ļ���СΪ��" + pContentLength + ",��ǰ�Ѵ���" + pBytesRead);
+					System.out.println("文件总大小：" + pContentLength + ",上传进度：" + pBytesRead);
 				}
 			});
 			upload.setHeaderEncoding("UTF-8");
@@ -74,13 +74,13 @@ public class UploadFileWbController extends HttpServlet {
 					System.out.println("图片名字:" + filename);
 
 					if (filename == null || filename.trim().equals("")) {
-						System.out.println("��ȡ�ļ�ʧ��");
+						System.out.println("没有文件！");
 						continue;
 					}
 					filename = filename.substring(filename.lastIndexOf("\\") + 1);
-					String fileExtName = filename.substring(filename.lastIndexOf(".") + 1);// �ļ���չ��
+					String fileExtName = filename.substring(filename.lastIndexOf(".") + 1);// 获取扩展名
 					if (!fileExtName.equals("jpg") && !fileExtName.equals("png") && !fileExtName.equals("jpeg")) {
-						System.out.println("�ϴ�ָ��Ϊjpg��jpeg��png��ʽ��ͼƬ");
+						System.out.println("不是jpg||jpeg||png");
 						continue;
 					}
 					InputStream in = item.getInputStream();
@@ -92,18 +92,18 @@ public class UploadFileWbController extends HttpServlet {
 					}
 					in.close();
 					out.close();
-					System.out.println("�����ļ��ɹ�");
-					message = "�ļ��ϴ��ɹ�";
+					System.out.println("保存文件成功");
+					message = "上传文件完成！";
 				}
 
 				File file = new File(savePath + "\\" + filename);
 				request.setAttribute("image_name", filename);
-				UploadFileTool uploadFileTool = new UploadFileTool();
+				Upload_DownloadFileTool uploadFileTool = new Upload_DownloadFileTool();
 				uploadFileTool.upload_file(file, "/home/computer/wb/cars/cars_predict/");
 				// 根据自己的路径修改
 
 				Linux_shell linux = new Linux_shell();// 自建工具类
-				linux.do_shell("D:\\Git\\Git\\vehicle_wb.sh");
+				linux.do_shell("D:\\Git\\Git\\git-bash.exe D:\\Git\\Git\\vehicle_wb.sh");
 				// 执行脚本文件调用do_shell方法
 				uploadFileTool.Download("/home/computer/wb/cars/result.txt",savePath +"\\result.txt");
 				//下载结果文件
@@ -118,22 +118,10 @@ public class UploadFileWbController extends HttpServlet {
 				request.setAttribute("result", result);// 传递测试结果
 				request.getRequestDispatcher("WEB-INF/jsp/wb/message.jsp").forward(request, response);// 替换自己的页面路径
 			}
-		} catch (FileUploadBase.FileSizeLimitExceededException e) {
+		}  catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			request.setAttribute("message", "�����ļ��������ֵ������");
-			request.getRequestDispatcher("/wb/message").forward(request, response);
-			return;
-		} catch (FileUploadBase.SizeLimitExceededException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			request.setAttribute("message", "�ϴ��ļ����ܵĴ�С�������Ƶ����ֵ������");
-			request.getRequestDispatcher("/wb/message").forward(request, response);
-			return;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			request.setAttribute("message", "ͼƬ��ʽ���󣡣���");
+			request.setAttribute("message", "出错了，请重试！");
 			request.getRequestDispatcher("wb/message.jsp").forward(request, response);
 			return;
 		}
