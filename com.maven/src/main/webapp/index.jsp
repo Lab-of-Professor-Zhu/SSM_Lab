@@ -117,11 +117,11 @@
 							<li class=""><a href="./index.html">首页</a></li>
 							<li><a href="#">产品中心</a> <!-- sub-menu start-->
 								<ul class="sub-menu">
-									<li class="menu-item"><a href="${pageContext.request.contextPath}/skip/lcy_test.do">测试—产品展示1</a>
+									<li class="menu-item"><a href="${pageContext.request.contextPath}/skip/lcy_test.do">lcy</a>
 									</li>
-									<li class="menu-item"><a href="">产品展示1</a>
+									<li class="menu-item"><a href="${pageContext.request.contextPath}/photograph/cjl_test.do">cjl</a>
 									</li>
-									<li class="menu-item"><a href="html/product2.html">产品展示2</a>
+									<li class="menu-item"><a href="${pageContext.request.contextPath}/uploadFile/wb_test.do">wb</a>
 									</li>
 									<li class="menu-item"><a href="html/product3.html">产品展示3</a>
 									</li>

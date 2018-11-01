@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/skip")  
 public class SkipController {
 	@RequestMapping(value="/lcy_test.do",method=RequestMethod.GET)  
-	//´ÓÕâÀïÌø×ªµ½lcyµÄÍøÒ³
+	//ä»è¿™é‡Œè·³è½¬åˆ°lcyçš„ç½‘é¡µ
     public String lcy_test() {
-		return "lcy/jsp/text_product1";
+		return "lcy/text_product1";
 	}
-	//´ÓÕâÀïÏò·şÎñÆ÷ÉÏ´«Ò»¸öÑ¹Ëõ°ü
+	//ä»è¿™é‡Œå‘æœåŠ¡å™¨ä¸Šä¼ ä¸€ä¸ªå‹ç¼©åŒ…
 	@RequestMapping(value="/lcy_image.do",method=RequestMethod.GET) 
 	public String lcy_image() {
 		FTPClient ftpClient = new FTPClient();        
@@ -26,22 +26,22 @@ public class SkipController {
 			ftpClient.connect("10.3.45.68");            
 			ftpClient.login("computer", "123456");             
 			File srcFile = new File("D:\\timg.rar");            
-			fis = new FileInputStream(srcFile);            //ÉèÖÃÉÏ´«Ä¿Â¼            
+			fis = new FileInputStream(srcFile);            //è®¾ç½®ä¸Šä¼ ç›®å½•            
 			ftpClient.changeWorkingDirectory("/home/computer/lx/a/");            
 			ftpClient.setBufferSize(1024);            
-			ftpClient.setControlEncoding("GBK");            //ÉèÖÃÎÄ¼şÀàĞÍ£¨¶ş½øÖÆ£©           
+			ftpClient.setControlEncoding("GBK");            //è®¾ç½®æ–‡ä»¶ç±»å‹ï¼ˆäºŒè¿›åˆ¶ï¼‰           
 			ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);  
 			ftpClient.storeFile("work.rar", fis);    			
 			} catch (IOException e) {            
 				e.printStackTrace();            
-				throw new RuntimeException("FTP¿Í»§¶Ë³ö´í£¡", e);       
+				throw new RuntimeException("FTPå®¢æˆ·ç«¯å‡ºé”™ï¼", e);       
 				} finally {            
 					IOUtils.closeQuietly(fis);            
 					try {                
 						ftpClient.disconnect();           
 						} catch (IOException e) {               
 							e.printStackTrace();                
-							throw new RuntimeException("¹Ø±ÕFTPÁ¬½Ó·¢ÉúÒì³££¡", e);     
+							throw new RuntimeException("å…³é—­FTPè¿æ¥å‘ç”Ÿå¼‚å¸¸ï¼", e);     
 							}       
 						}  
 		return "lcy/jsp/text_product1";
