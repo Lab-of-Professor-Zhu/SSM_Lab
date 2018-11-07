@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String path = request.getContextPath();
+	String path = request.getContextPath();//拿到的是你的web项目的根路径
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -136,17 +136,24 @@
 		</div>
 
 		<div align="center">
-			<img src="<%=path%>/assets/images/wb/img_01.jpg" alt="some_text">
+			<img src="<%=path%>/assets/images/wb/img_01.jpg" alt="some_text" width="400">
 		</div>
 		<br /> <br />
 		<script type="text/javascript">
-			function changepic(obj) {
-				//console.log(obj.files[0]);//这里可以获取上传文件的name
-				var newsrc = getObjectURL(obj.files[0]);
-				document.getElementById('show').src = newsrc;
+			function choosepic(obj) {
+				console.log(obj.files.length);
+				var s="";
+				for (var i = 0; i < obj.files.length; i++) {
+					var newsrc = getObjectURL(obj.files[i]);
+					console.log(newsrc);
+					s=s+"<img src=\""+newsrc+"\" width=\"400\" >";
+				}
+				console.log(s);
+				var Div=document.getElementById('showDiv');
+				Div.innerHTML = s;
 			}
 
-			//建立一個可存取到該file的url
+			//建立一個可存取到该file的url
 			function getObjectURL(file) {
 				var url = null;
 				// 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
@@ -160,18 +167,25 @@
 				return url;
 			}
 		</script>
-		<form action="<%=path%>/UploadFileWbController"
+		<form
+			action="${pageContext.request.contextPath}/uploadFile/upload_wb.do"
 			enctype="multipart/form-data" method="post">
 			<div align="center">
 				<input id="file" name="file" style="text-align: center" type="file"
-					accept="*image" onchange="changepic(this)" class="inputfile" /> <br />
-				<img src="" id="show" width="400">
+					accept="*image" onchange="choosepic(this)"
+					class="am-btn am-btn-secondary am-round" multiple /> 
+					<br/>
+			</div>
+			<div id="showDiv" align="center">
 			</div>
 
 			<div class="product1-login">
-				<input type="submit" value="上传文件"
+				<input type="submit" value="提交检测"
 					class="am-btn am-btn-secondary am-round" />
 			</div>
+			<div align="center">为保证检测准确性，请尽量使用高质量图片</div>
+			<div align="center">提交的图片越多，程序执行时间越长，请耐心等待</div>
+			<div align="center">禁止恶意泛洪攻击服务器</div>
 		</form>
 
 		<!--===========layout-footer================-->

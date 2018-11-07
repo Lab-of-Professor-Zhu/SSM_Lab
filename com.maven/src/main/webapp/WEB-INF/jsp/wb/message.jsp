@@ -1,3 +1,6 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
@@ -199,31 +202,53 @@
 		<div class="layout-container">
 			<%
 				String messageString = (String) request.getAttribute("message");
-				System.out.println("返回信息：" + messageString);
-				String resultString = (String) request.getAttribute("result");
-				String image_name = (String) request.getAttribute("image_name");
-				System.out.println("image_name：" + image_name);
+				String image_path = (String) request.getAttribute("image_path");//临时文件夹名字
+				Map<String, String> result = null;
+				try {
+					result = (Map<String, String>) request.getAttribute("result");
+				} catch (Exception e) {
+
+				}
 			%>
 			<div class="error error-dark">
 				<div class="container">
 					<br></br>
-					<img alt="" width="400" src="wb_upload/<%=image_name%>">
 					<%
-						if (resultString == null) {
+						if (result == null) {
 					%>
 					<h3><%=messageString%></h3>
 					<p>Something wrong.</p>
 					<p>发生了一些错误，请根据提示重新尝试。</p>
 					<%
 						} else {
+							Iterator<Map.Entry<String, String>> it = result.entrySet().iterator();
+							while (it.hasNext()) {
+								Map.Entry<String, String> entry = it.next();
+								String image_name = entry.getKey();
+								String resultString = entry.getValue();
+								String[] results = resultString.split("@");
+								//System.out.println("changdu：" + results.length);
+								
 					%>
-					<h3><%="预测结果:\n"+resultString%></h3>
+								<img alt="" width="400"
+									src="../wb_upload/<%=image_path + "/" + image_name%>">
 					<%
+								for (int i = 0; i < results.length; i++) {
+									String temp_result=results[i];
+					%>
+									<h3><%=temp_result%></h3>
+					<%
+								}
+							}
 						}
 					%>
 
-					<button type="button" class="am-btn am-btn-secondary"
-						onclick="window.location.href='${pageContext.request.contextPath}/uploadFile/wb_test.do'">返回</button>
+					<form
+						action="${pageContext.request.contextPath}/uploadFile/wb_delete.do"
+						method="post">
+						<input type="hidden" name="image_path" value="<%=image_path%>">
+						<input type="submit" value="返回" class="am-btn am-btn-secondary" />
+					</form>
 				</div>
 			</div>
 		</div>

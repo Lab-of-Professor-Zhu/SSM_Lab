@@ -65,4 +65,12 @@
     <servlet-name>UploadFileWbController</servlet-name>
     <url-pattern>/UploadFileWbController</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>DeleteFileWbController</servlet-name>
+    <servlet-class>com.javen.controller.DeleteFileWbController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteFileWbController</servlet-name>
+    <url-pattern>/servlet/DeleteFileWbController</url-pattern>
+  </servlet-mapping>
 </web-app>
