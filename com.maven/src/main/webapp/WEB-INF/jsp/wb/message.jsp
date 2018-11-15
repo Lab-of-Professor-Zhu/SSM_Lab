@@ -1,3 +1,4 @@
+<%@page import="java.util.Arrays"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
@@ -227,6 +228,7 @@
 								String image_name = entry.getKey();
 								String resultString = entry.getValue();
 								String[] results = resultString.split("@");
+								Arrays.sort(results); //对字符串进行排序
 								//System.out.println("changdu：" + results.length);
 								
 					%>
